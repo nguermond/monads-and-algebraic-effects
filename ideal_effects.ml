@@ -82,7 +82,9 @@ module ND (M : Monoid) = struct
       try
         (f v)
       with
+      (* fail : unit -> (empty -> M.t) -> M.t *)
       | Fail ((); k)   -> M.id
+      (* decide : unit -> (bool -> M.t) -> M.t *)
       | Decide ((); k) -> M.op (continue k true) (continue k false)
   end
 
@@ -138,24 +140,17 @@ let rec findall (p : int -> bool) (tt : tree) : int list =
 
 
 
-(* TODO... not sure how to do this *)  
-(* let maxsum (xs : int list) (ys : int list) : int =
- *   let module NDIntList = ND(IntList) in
- *   let module NDMax = ND(Max) in
- *   let rec choose (xs : int list) : int =
- *     let open NDIntList in
- *     if xs = [] then (fail()) else
- *       if (decide ()) then
- *         (hd xs)
- *       else
- *         (choose (tl xs))
- *   in
- *   let findmax () : int =
- *     let open ND(Max) in
- *     if (decide ()) then
- *       (NDIntList.run choose xs)
- *     else
- *       (NDIntList.run choose ys)
- *   in
- *   (NDMax.run findmax ()) *)
+(* find values k1 in tt1, k2 in tt2 such that (k1 + k2) is maximized *)
+let maxsum (tt1 : tree) (tt2 : tree) : int =
+  let open ND(Max) in
+  let rec findmax (f : int -> int) (tt : tree) : int =
+    match tt with
+    | Leaf k -> (f k)
+    | Node (l,r) ->
+       if (decide()) then
+         (findmax f l)
+       else
+         (findmax f r)
+  in
+  run (findmax (fun k -> run (findmax (fun l -> k + l)) tt2)) tt1
   
