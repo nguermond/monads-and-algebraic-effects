@@ -1,0 +1,15 @@
+(executable
+ (name nondeterminism)
+ (modules nondeterminism)
+ (modes byte_complete native)
+ (libraries multicont))
+
+(executable
+ (name state)
+ (modules state)
+ (modes byte_complete native))
+
+(executable
+ (name monads)
+ (modules monads)
+ (modes byte_complete native))
