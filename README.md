@@ -44,4 +44,4 @@ which corresponds to nondeterministic execution.
 More examples:
  - [ideal_effects.ml](ideal_effects.ml) (idealized syntax)
  - [state.ml](state.ml)
- - [nondeterminism.ml](nondeterminism.ml) (gives runtime error because linearity condition for continuations is not satisfied)
+ - [nondeterminism.ml](nondeterminism.ml)
